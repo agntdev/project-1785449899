@@ -1,17 +1,17 @@
 import { Composer } from "grammy";
+import type { Ctx } from "../bot.js";
+import { generateForTopic } from "./generation.js";
 
-// SCAFFOLD — generated from the bot blueprint BEFORE the agent runs.
-// Keep a LIVE registration (.command / .callbackQuery / …) so this feature is
-// never an empty stub. Replace the reply body with real logic + copy; if you
-// change the user-facing text, update tests/specs to match EXACTLY.
-// Do NOT rewrite src/bot.ts — buildBot() already auto-loads this module.
-// Menu: wire this into /start via registerMainMenuItem({ label: "Generate Again", data: "regenerate" }) if the toolkit exposes it.
-
-const composer = new Composer();
+const composer = new Composer<Ctx>();
 
 composer.callbackQuery("regenerate", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Request new post for same topic");
+  if (!ctx.session.lastTopic) {
+    ctx.session.step = "awaiting_topic";
+    await ctx.reply("ما عندي موضوع سابق — أرسل موضوعك أولًا.");
+    return;
+  }
+  await generateForTopic(ctx, ctx.session.lastTopic);
 });
 
 export default composer;

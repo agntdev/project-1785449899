@@ -1,0 +1,13 @@
+[
+  {
+    "name": "history explains when owner controls are not configured",
+    "steps": [
+      {
+        "send": { "callback": "history:show" },
+        "expect": [
+          { "method": "sendMessage", "payload": { "text": "سجل المالك مو مُعدّ بعد." } }
+        ]
+      }
+    ]
+  }
+]
