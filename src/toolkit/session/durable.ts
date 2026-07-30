@@ -39,7 +39,9 @@ export interface WorkerEnv {
   BOT_TOKEN: string;
   WEBHOOK_SECRET?: string;
   CHAT_DO: DONamespace;
-  DB?: unknown; // D1 binding (app data); see AGENTS.md
+  DB?: import("../persistent.js").D1Like; // D1 binding (app data); see AGENTS.md
+  OPENAI_API_KEY?: string;
+  ADMIN_CHAT_ID?: string;
   BOT_TELEMETRY_URL?: string;
   BOT_TELEMETRY_SECRET?: string;
   BOT_TELEMETRY_SALT?: string;

@@ -1,19 +1,36 @@
 [
   {
-    "name": "Generate Again",
+    "name": "regeneration asks for a topic when none exists",
     "steps": [
       {
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Request new post for same topic"
+              "text": "ما عندي موضوع سابق — أرسل موضوعك أولًا."
             }
           }
         ],
         "send": {
           "callback": "regenerate"
         }
+      }
+    ]
+  },
+  {
+    "name": "topic flow keeps the topic for regeneration when OpenAI is not configured",
+    "steps": [
+      {
+        "send": { "text": "/start" },
+        "expect": [{ "method": "sendMessage", "payload": { "text": "ما موضوع المنشور؟" } }]
+      },
+      {
+        "send": { "text": "العمل عن بُعد ✨" },
+        "expect": [{ "method": "sendMessage", "payload": { "text": "ميزة إنشاء المنشور مو مُعدّة بعد — جرّب لاحقًا." } }]
+      },
+      {
+        "send": { "callback": "regenerate" },
+        "expect": [{ "method": "sendMessage", "payload": { "text": "ميزة إنشاء المنشور مو مُعدّة بعد — جرّب لاحقًا." } }]
       }
     ]
   }
